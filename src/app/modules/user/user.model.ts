@@ -1,8 +1,8 @@
 import mongoose, { Schema } from 'mongoose'
-import { TUser } from './user.interface'
 import config from '../../config'
 import bcrypt from 'bcrypt'
-const userSchema = new Schema<TUser>(
+import { TUser, UserModel } from './user.interface'
+const userSchema = new Schema<TUser, UserModel>(
   {
     username: {
       type: String,
@@ -44,6 +44,16 @@ userSchema.pre('save', async function (next) {
   next()
 })
 
-const User = mongoose.model<TUser>('User', userSchema)
+userSchema.statics.isUserExistsByUserName = async function (username: string) {
+  return await User.findOne({ username })
+}
+userSchema.statics.isPasswordMatched = async function (
+  plaintextPassword,
+  hashedPassword,
+) {
+  return await bcrypt.compare(plaintextPassword, hashedPassword)
+}
+
+const User = mongoose.model<TUser, UserModel>('User', userSchema)
 
 export default User
