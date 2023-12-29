@@ -3,6 +3,7 @@ import { CategoryRoutes } from '../modules/Category/category.route'
 import { CourseRoute } from '../modules/Course/course.route'
 import { CoursesRoute } from '../modules/Course/courses.route'
 import { reviewRoute } from '../modules/Review/review.route'
+import { userRouter } from '../modules/user/user.route'
 const router = Router()
 
 const moduleRoutes = [
@@ -21,6 +22,10 @@ const moduleRoutes = [
   {
     path: '/reviews',
     route: reviewRoute,
+  },
+  {
+    path: '/auth',
+    route: userRouter,
   },
 ]
 
