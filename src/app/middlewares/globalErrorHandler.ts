@@ -4,11 +4,14 @@ import { ErrorRequestHandler } from 'express'
 import { ZodError } from 'zod'
 import config from '../config'
 
+import { TErrorSources } from '../interface/error'
 import handleZodError from '../error/handleZodError'
 import handleValidationError from '../error/handleValidationError'
 import handleCastError from '../error/handleCastError'
 import handleDuplicateError from '../error/handleDuplicateError'
 import AppError from '../error/AppError'
+import CustomError from '../error/CustomError'
+
 const globalErrorHandler: ErrorRequestHandler = (
   errorDetails,
   req,
@@ -42,9 +45,13 @@ const globalErrorHandler: ErrorRequestHandler = (
   } else if (errorDetails instanceof AppError) {
     statusCode = errorDetails?.statusCode
     message = errorDetails.message
+  } else if (errorDetails instanceof CustomError) {
+    statusCode = errorDetails?.statusCode
+    message = errorDetails.message
   } else if (errorDetails instanceof Error) {
     message = errorDetails.message
   }
+
   //ultimate return
   return res.status(statusCode).json({
     success: false,

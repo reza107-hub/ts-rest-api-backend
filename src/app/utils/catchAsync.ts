@@ -1,10 +1,11 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express'
-import AppError from '../error/AppError'
+import CustomError from '../error/CustomError'
+import PasswordError from '../error/passwordError'
 
 const catchAsync = (fn: RequestHandler) => {
   return (req: Request, res: Response, next: NextFunction) => {
     Promise.resolve(fn(req, res, next)).catch((err) => {
-      if (err instanceof AppError && err.isUnauthorized) {
+      if (err instanceof CustomError && err.isUnauthorized) {
         res.status(err.statusCode).json({
           success: false,
           message: err.message,
@@ -12,11 +13,17 @@ const catchAsync = (fn: RequestHandler) => {
           errorDetails: null,
           stack: null,
         })
+      } else if (err instanceof PasswordError) {
+        res.status(err.statusCode).json({
+          success: false,
+          statusCode: err.statusCode,
+          message: err.message,
+          data: null,
+        })
       } else {
         next(err)
       }
     })
   }
 }
-
 export default catchAsync

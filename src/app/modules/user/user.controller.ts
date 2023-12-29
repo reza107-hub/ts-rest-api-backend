@@ -25,6 +25,8 @@ const logInUser = catchAsync(async (req, res) => {
 const changePassword = catchAsync(async (req, res) => {
   const { currentPassword, newPassword } = req.body
   const result = await userServices.changePasswordService(
+    req,
+    res,
     req.user,
     currentPassword,
     newPassword,
@@ -37,7 +39,6 @@ const changePassword = catchAsync(async (req, res) => {
     data: result,
   })
 })
-
 export const userController = {
   registerUser,
   logInUser,
