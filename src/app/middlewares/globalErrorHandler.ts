@@ -4,13 +4,11 @@ import { ErrorRequestHandler } from 'express'
 import { ZodError } from 'zod'
 import config from '../config'
 
-import { TErrorSources } from '../interface/error'
 import handleZodError from '../error/handleZodError'
 import handleValidationError from '../error/handleValidationError'
 import handleCastError from '../error/handleCastError'
 import handleDuplicateError from '../error/handleDuplicateError'
 import AppError from '../error/AppError'
-
 const globalErrorHandler: ErrorRequestHandler = (
   errorDetails,
   req,
@@ -21,7 +19,6 @@ const globalErrorHandler: ErrorRequestHandler = (
   let statusCode = 500
   let message = 'Something went wrong!'
   let errorMessage: string = ''
-
   if (errorDetails instanceof ZodError) {
     const simplifiedError = handleZodError(errorDetails)
     statusCode = simplifiedError?.statusCode
@@ -48,7 +45,6 @@ const globalErrorHandler: ErrorRequestHandler = (
   } else if (errorDetails instanceof Error) {
     message = errorDetails.message
   }
-
   //ultimate return
   return res.status(statusCode).json({
     success: false,
@@ -58,5 +54,4 @@ const globalErrorHandler: ErrorRequestHandler = (
     stack: config.NODE_ENV === 'development' ? errorDetails?.stack : null,
   })
 }
-
 export default globalErrorHandler
