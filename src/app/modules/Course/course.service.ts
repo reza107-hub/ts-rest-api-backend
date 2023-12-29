@@ -100,7 +100,10 @@ const getPaginatedAndFilterCoursesFromDB = async (
 }
 
 const getCourseWithReviewFromDB = async (id: string) => {
-  const result = await Course.findById({ _id: new Object(id) })
+  const result = await Course.findById({ _id: new Object(id) }).populate({
+    path: 'createdBy',
+    select: '-password -createdAt -updatedAt -__v',
+  })
   const reviews = await Review.find({ courseId: id })
 
   return { result, reviews }
@@ -153,7 +156,10 @@ const updateCourseIntoDB = async (id: string, payload: Partial<TCourse>) => {
     id,
     { ...courseRemainingData, ...updateObject },
     { new: true, runValidators: true },
-  )
+  ).populate({
+    path: 'createdBy',
+    select: '-password -createdAt -updatedAt -__v',
+  })
 
   if (!updatedCourse) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Failed to update course')
