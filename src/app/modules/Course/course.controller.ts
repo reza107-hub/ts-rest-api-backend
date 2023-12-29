@@ -28,7 +28,9 @@ const getAllCourses = catchAsync(async (req, res) => {
       limit: parseInt(limit),
       total: total,
     },
-    data: result,
+    data: {
+      courses: result,
+    },
   })
 })
 

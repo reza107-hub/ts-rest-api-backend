@@ -16,7 +16,10 @@ const createCategoryIntoDB = async (
   return result
 }
 const getAllCategoryFromDB = async () => {
-  const result = await Category.find()
+  const result = await Category.find().populate({
+    path: 'createdBy',
+    select: '-password -createdAt -updatedAt -__v',
+  })
   return result
 }
 export const CategoryService = {

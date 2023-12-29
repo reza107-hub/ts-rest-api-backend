@@ -70,6 +70,7 @@ const courseSchema = new Schema<TCourse>(
     toJSON: {
       virtuals: true,
     },
+    timestamps: true,
   },
 )
 

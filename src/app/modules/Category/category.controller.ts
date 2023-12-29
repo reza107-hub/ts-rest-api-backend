@@ -21,7 +21,9 @@ const getAllCategory = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Categories retrieved successfully',
-    data: result,
+    data: {
+      categories: result,
+    },
   })
 })
 export const CategoryControllers = {
