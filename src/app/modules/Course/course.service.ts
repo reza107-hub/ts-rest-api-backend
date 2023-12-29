@@ -110,7 +110,10 @@ const getCourseWithReviewFromDB = async (id: string) => {
 }
 
 const getTheBestCourseWithHighestRatingFromDB = async () => {
-  const courses = await Course.find()
+  const courses = await Course.find().populate({
+    path: 'createdBy',
+    select: '-password -createdAt -updatedAt -__v',
+  })
   let bestCourse = null
   let highestAverageRating = 0
   let reviewCount = 0
