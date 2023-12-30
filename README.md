@@ -9,13 +9,13 @@ Make sure you have the following tools installed on your machine:
 1. **Clone the Repository:**
 
     ```bash
-    git clone https://github.com/Porgramming-Hero-web-course/l2b2a3-course-review-reza107-hub.git
+    git clone https://github.com/Porgramming-Hero-web-course/l2b2a4-course-review-with-auth-reza107-hub.git
     ```
 
 2. **Navigate to the Project Directory:**
 
     ```bash
-    cd l2b2a3-course-review-reza107-hub
+    cd l2b2a4-course-review-with-auth-reza107-hub
     ```
 
 3. **Install Dependencies:**
