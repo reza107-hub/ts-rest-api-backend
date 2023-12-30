@@ -1,5 +1,5 @@
-import { Schema, model } from 'mongoose'
-import { TCourse, TTag } from './course.interface'
+import { Schema, model } from 'mongoose';
+import { TCourse, TTag } from './course.interface';
 
 const tagSchema = new Schema<TTag>({
   name: {
@@ -11,7 +11,7 @@ const tagSchema = new Schema<TTag>({
     type: Boolean,
     required: true,
   },
-})
+});
 
 const courseSchema = new Schema<TCourse>(
   {
@@ -64,21 +64,26 @@ const courseSchema = new Schema<TCourse>(
         required: true,
         trim: true,
       },
+     
+    },
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
     },
   },
   {
     toJSON: {
       virtuals: true,
     },
-    timestamps: true,
+    timestamps: true
   },
-)
+);
 
 courseSchema.virtual('durationInWeeks').get(function () {
-  const startDate = new Date(this.startDate)
-  const endDate = new Date(this.endDate)
-  const timeDifference = endDate.getTime() - startDate.getTime()
-  const durationInWeeks = Math.ceil(timeDifference / (7 * 24 * 60 * 60 * 1000))
-  return durationInWeeks
-})
-export const Course = model<TCourse>('Course', courseSchema)
+  const startDate = new Date(this.startDate);
+  const endDate = new Date(this.endDate);
+  const timeDifference = endDate.getTime() - startDate.getTime();
+  const durationInWeeks = Math.ceil(timeDifference / (7 * 24 * 60 * 60 * 1000));
+  return durationInWeeks;
+});
+export const Course = model<TCourse>('Course', courseSchema);

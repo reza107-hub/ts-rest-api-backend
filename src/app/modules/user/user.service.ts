@@ -70,6 +70,26 @@ const changePasswordService = async (
     throw new AppError(httpStatus.NOT_FOUND, 'this user is not found')
   }
 
+  const matchPassword = await User.isPasswordMatched(
+    currentPassword,
+    user.password,
+  )
+  if (!matchPassword) {
+    const lastUsedTimestamp = user?.passwordChangedAt?.toLocaleString()
+    const errorMessage = `New password must be unique and different from the last 2 passwords and cannot be the current password (last used on ${lastUsedTimestamp}).`
+    throw new PasswordError(httpStatus.BAD_REQUEST, errorMessage)
+  }
+
+  const isPasswordSame = await User.isPasswordMatched(
+    newPassword,
+    user.password,
+  )
+  if (isPasswordSame) {
+    const lastUsedTimestamp = user?.passwordChangedAt?.toLocaleString()
+    const errorMessage = `New password must be unique and different from the last 2 passwords and cannot be the current password (last used on ${lastUsedTimestamp}).`
+    throw new PasswordError(httpStatus.BAD_REQUEST, errorMessage)
+  }
+
   const passwordHistory = await PasswordModel.findOne({ email: user.email })
 
   if (passwordHistory) {

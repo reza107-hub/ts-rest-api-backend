@@ -1,15 +1,13 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 const TTagValidationSchema = z.object({
   name: z.string().trim(),
   isDeleted: z.boolean(),
-})
-
+});
 const updatedTagValidationSchema = z.object({
   name: z.string().trim().optional(),
   isDeleted: z.boolean().optional(),
-})
-
+});
 const TCourseValidationSchema = z.object({
   body: z.object({
     title: z.string().trim(),
@@ -26,7 +24,7 @@ const TCourseValidationSchema = z.object({
       description: z.string().trim(),
     }),
   }),
-})
+});
 const updateCourseValidationSchema = z.object({
   body: z.object({
     title: z.string().trim().optional(),
@@ -45,9 +43,10 @@ const updateCourseValidationSchema = z.object({
       })
       .optional(),
   }),
-})
+});
+
 export const CourseValidations = {
   TTagValidationSchema,
   TCourseValidationSchema,
   updateCourseValidationSchema,
-}
+};
